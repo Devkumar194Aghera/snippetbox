@@ -36,3 +36,8 @@ func (app *application) notFound(w http.ResponseWriter) {
 	app.clientError(w, http.StatusNotFound)
 
 }
+
+func (app *application) isAuthnticated(r *http.Request) int {
+
+	return app.session.GetInt(r, "userID")
+}
