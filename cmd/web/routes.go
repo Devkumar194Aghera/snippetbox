@@ -15,13 +15,18 @@ func (app *application) routes() http.Handler {
 
 	//new Servemux instead of Default servermux to avoid any commplication might
 	//create create if 3rd party pakage use DefaultServeMux
+	dynamicMiddleware := alice.New(app.session.Enable)
 	mux := pat.New()
-	mux.Get("/", app.session.Enable(http.HandlerFunc(app.home)))
-	mux.Get("/snippet", app.session.Enable(http.HandlerFunc(app.showSnippet)))
-	mux.Get("/snippet/create", app.session.Enable(http.HandlerFunc(app.createSnippetForm)))
-	mux.Post("/snippet/create", app.session.Enable(http.HandlerFunc(app.createSnippet)))
-	mux.Get("/snippet/:id", app.session.Enable(http.HandlerFunc(app.showSnippet)))
-	// to prevent from making create = :id
+
+	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
+	mux.Get("/snippet/create", dynamicMiddleware.Append(app.requireAuthenticatedUser).ThenFunc(app.createSnippetForm))
+	mux.Post("/snippet/create", dynamicMiddleware.Append(app.requireAuthenticatedUser).ThenFunc(app.createSnippet))
+	mux.Get("/user/signup", dynamicMiddleware.ThenFunc(app.signupUserForm))
+	mux.Post("/user/signup", dynamicMiddleware.ThenFunc(app.signupUser))
+	mux.Get("/user/login", dynamicMiddleware.ThenFunc(app.loginUserForm))
+	mux.Post("/user/login", dynamicMiddleware.ThenFunc(app.loginUser))
+	mux.Post("/user/logout", dynamicMiddleware.ThenFunc(app.logoutUser))
+	mux.Get("/snippet/:id",dynamicMiddleware.Append(app.requireAuthenticatedUser).ThenFunc(app.showSnippet))
 
 	//For loading the css and other static data in html script templates we send these data over HTTP using fileServer
 	// and below is its handler

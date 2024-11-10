@@ -52,9 +52,11 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 
 // templateData structure definition
 type templateData struct {
-	CurrentYear int
-	Flash       string
-	Form        *forms.Form
-	Snippet     *models.Snippet
-	Snippets    []*models.Snippet
+	AuthenticatedUser int
+	CSRFToken         string
+	CurrentYear       int
+	Flash             string
+	Form              *forms.Form
+	Snippet           *models.Snippet
+	Snippets          []*models.Snippet
 }

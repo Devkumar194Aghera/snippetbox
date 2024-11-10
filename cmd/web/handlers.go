@@ -97,6 +97,7 @@ func (app *application) addCommonData(td *templateData, r *http.Request) *templa
 	}
 
 	td.CurrentYear = time.Now().Year()
+	td.AuthenticatedUser = app.isAuthnticated(r)
 
 	td.Flash = app.session.PopString(r, "flash")
 	return td
@@ -121,4 +122,89 @@ func (app *application) render(w http.ResponseWriter, r *http.Request, name stri
 
 	buf.WriteTo(w)
 
+}
+
+func (app *application) signupUserForm(w http.ResponseWriter, r *http.Request) {
+	app.render(w, r, "signup.page.tmpl", &templateData{
+		Form: forms.New(nil),
+	})
+}
+
+func (app *application) signupUser(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+	if err != nil {
+		app.clientError(w, http.StatusBadRequest)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+	form.Required("name", "email", "password")
+	form.MatchesPattern("email", forms.EmailRegExp)
+	form.MinLength("password", 10)
+
+	if !form.Valid() {
+		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+		return
+	}
+
+	err = app.users.Insert(form.Get("name"), form.Get("email"), form.Get("password"))
+
+	if err == models.ErrDuplicateEmail {
+		form.Errors.Add("email", "Address is already in use")
+		app.render(w, r, "signup.page.tmpl", &templateData{Form: form})
+		return
+	} else if err != nil {
+		app.serverError(w, err)
+		return
+	}
+
+	app.session.Put(r, "flash", "Your signup was successful. Please log in.")
+
+	http.Redirect(w, r, "/user/login", http.StatusSeeOther)
+
+}
+
+func (app *application) loginUserForm(w http.ResponseWriter, r *http.Request) {
+
+	app.render(w, r, "login.page.tmpl", &templateData{Form: forms.New(nil)})
+	return
+
+}
+
+func (app *application) loginUser(w http.ResponseWriter, r *http.Request) {
+
+	err := r.ParseForm()
+
+	if err != nil {
+		app.clientError(w, http.StatusInternalServerError)
+		return
+	}
+
+	form := forms.New(r.PostForm)
+
+	id, err := app.users.Authneticate(form.Get("email"), form.Get("password"))
+
+	if err == models.ErrInvalidCredentials {
+
+		form.Errors.Add("generic", "Email or Password is incorrect")
+		app.render(w, r, "login.page.tmpl", &templateData{Form: form})
+		return
+
+	} else if err != nil {
+		app.serverError(w, err)
+	}
+
+	app.session.Put(r, "userID", id)
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
+
+}
+func (app *application) logoutUser(w http.ResponseWriter, r *http.Request) {
+
+	app.session.Remove(r, "userID")
+
+	app.session.Put(r, "flash", "You've been logged out successfully!")
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }
