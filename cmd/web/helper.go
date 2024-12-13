@@ -2,9 +2,20 @@ package main
 
 import (
 	"fmt"
+	"goModule/snippetbox/pkg/models"
 	"net/http"
 	"runtime/debug"
 )
+
+//We do this for easy retrieval of the user details from the request context.
+
+func (app *application) authenticatedUser(r *http.Request) *models.User {
+	user, ok := r.Context().Value(contextKeyUser).(*models.User)
+	if !ok {
+		return nil
+	}
+	return user
+}
 
 // The serverError helper writes an error message and stack trace to the errorLo
 // then sends a generic 500 Internal Server Error response to the user.
@@ -37,7 +48,7 @@ func (app *application) notFound(w http.ResponseWriter) {
 
 }
 
-func (app *application) isAuthnticated(r *http.Request) int {
+// func (app *application) isAuthnticated(r *http.Request) *models.User {
 
-	return app.session.GetInt(r, "userID")
-}
+// 	return app.session.GetInt(r, "userID")
+// }

@@ -52,7 +52,7 @@ func newTemplateCache(dir string) (map[string]*template.Template, error) {
 
 // templateData structure definition
 type templateData struct {
-	AuthenticatedUser int
+	AuthenticatedUser *models.User
 	CSRFToken         string
 	CurrentYear       int
 	Flash             string

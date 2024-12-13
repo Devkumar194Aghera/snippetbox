@@ -16,6 +16,12 @@ import (
 	"github.com/golangcollege/sessions" // New import
 )
 
+type contextKey string
+
+var contextKeyUser = contextKey("user")
+
+
+
 // To make the logger available to all the files we create a custom struct against which we will be calling handlers
 type application struct {
 	errorLog      *log.Logger
