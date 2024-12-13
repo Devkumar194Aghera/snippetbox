@@ -15,7 +15,7 @@ func (app *application) routes() http.Handler {
 
 	//new Servemux instead of Default servermux to avoid any commplication might
 	//create create if 3rd party pakage use DefaultServeMux
-	dynamicMiddleware := alice.New(app.session.Enable)
+	dynamicMiddleware := alice.New(app.session.Enable,app.authenticate)
 	mux := pat.New()
 
 	mux.Get("/", dynamicMiddleware.ThenFunc(app.home))
