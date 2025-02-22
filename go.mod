@@ -12,5 +12,6 @@ require (
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/joho/godotenv v1.5.1
 	golang.org/x/sys v0.0.0-20190412213103-97732733099d // indirect
 )
