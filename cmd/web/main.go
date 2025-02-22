@@ -56,7 +56,7 @@ func main() {
     }
 	
 	// For configurations
-	addr := flag.String("addr", ":4000", "HTTP Network Address")
+	addr := flag.String("addr", ":"+os.Getenv("PORT"), "HTTP Network Address")
 	dsn := flag.String("dsn",os.Getenv("DB_DSN"), "MySQL database")
 	secret := flag.String("secret", os.Getenv("SECRET_KEY"), "Secret")
 	flag.Parse()
