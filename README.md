@@ -8,8 +8,7 @@ This project implements a simple web application that allows users to store, man
 
 - **Enhanced Logging**: Improve log messages by categorizing them by type (e.g., info, error) for better debugging and monitoring.
 
-- **Dependency Management**: Make dependencies available to handlers in a type-safe, extensible manner, making testing and scalability easier.
-Centralized Error Handling: Handle errors consistently across the application to avoid repetitive code.
+- **Centralized Error Handling**: Handle errors consistently across the application to avoid repetitive code.
 
 - **HTML Rendering**: Render HTML pages and use template inheritance to keep markup DRY and maintainable.
 
@@ -30,8 +29,6 @@ Centralized Error Handling: Handle errors consistently across the application to
 - **TLS Support**: Set up HTTPS with self-signed certificates and adjust TLS settings for security.
 
 - **User Authentication**: Implement basic signup, login, and logout functionality with secure password storage and CSRF protection.
-
-- **Request Context**: Pass contextual information (like user data) between handlers using request context.
 
 ## Requirements
 
