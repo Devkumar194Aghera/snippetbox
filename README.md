@@ -2,6 +2,8 @@
 
 Live project : https://snippetbox.alwaysdata.net/
 
+NOTE: Need to signin to see snippet content
+
 This project implements a simple web application that allows users to store, manage, and share code snippets. The project demonstrates the use of idiomatic Go programming practices, structuring applications in a maintainable and secure way, and integrating common web development features.
 
 ## Features
