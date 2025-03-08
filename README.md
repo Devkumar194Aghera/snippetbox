@@ -62,11 +62,7 @@ This project implements a simple web application that allows users to store, man
 
 ## Usage
 
-- **Store Snippets**: Use the web interface to add new code snippets with titles, descriptions, and code.
-
-- **Edit Snippets**: Edit existing snippets directly from the user interface.
-
-- **Delete Snippets**: Remove snippets when no longer needed.
+- **Create Snippets**: Use the web interface to add new code snippets with titles, descriptions, and code.
 
 - **User Authentication**: Users can sign up, log in, and log out with secure sessions.
 
