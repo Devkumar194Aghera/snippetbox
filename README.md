@@ -1,97 +1,86 @@
-# **Snippet Box**
+# Snippetbox
 
-Live project : https://snippetbox.alwaysdata.net/
+Snippetbox is a secure web application that allows developers to store, manage, and share code snippets privately. This project demonstrates idiomatic Go programming, secure coding practices, and key web development features like user authentication and dynamic templating.
 
-NOTE: Need to signin to see snippet content
+## Live Demo
 
-This project implements a simple web application that allows users to store, manage, and share code snippets. The project demonstrates the use of idiomatic Go programming practices, structuring applications in a maintainable and secure way, and integrating common web development features.
+Visit [https://snippetbox.alwaysdata.net/](https://snippetbox.alwaysdata.net/) to see the application in action. (Note: Sign-in required to view snippets)
 
-## Features
+## Key Features
 
-- **Configuration Settings** : Set configuration options at runtime using command-line flags.
-
-- **Enhanced Logging**: Improve log messages by categorizing them by type (e.g., info, error) for better debugging and monitoring.
-
-- **Centralized Error Handling**: Handle errors consistently across the application to avoid repetitive code.
-
-- **HTML Rendering**: Render HTML pages and use template inheritance to keep markup DRY and maintainable.
-
-- **Static File Serving**: Serve images, CSS, and JavaScript files from the application.
-
-- **SQL Transactions & Security**: Use transactions to group SQL statements and prevent SQL injection attacks with safe parameterized queries.
-
-- **Template Handling**: Dynamically pass data to HTML templates and handle template rendering errors gracefully.
-
-- **Custom Middleware**: Implement middleware for logging, security headers, panic recovery, and request handling.
-
-- **RESTful Routing**: Structure your application using a RESTful approach with a third-party router.
-
-- **Form Handling**: Parse and validate form data with user-friendly feedback for validation errors.
-
-- **Session Management**: Use sessions to securely store user data and handle session timeouts and cookie settings.
-
-- **TLS Support**: Set up HTTPS with self-signed certificates and adjust TLS settings for security.
-
-- **User Authentication**: Implement basic signup, login, and logout functionality with secure password storage and CSRF protection.
+- **Secure User Authentication:** Implements signup, login, and logout functionality with secure password hashing (bcrypt) and CSRF protection.
+- **SQL Injection Prevention:** Uses parameterized queries and SQL transactions to ensure secure database interactions.
+- **Dynamic HTML Templating:** Renders HTML pages with dynamic data using Go templates, including template inheritance for maintainability.
+- **Custom Middleware:** Employs custom middleware for logging, security headers (X-Content-Type-Options, etc.), panic recovery, and request handling.
+- **RESTful Routing:** Structures the application using a RESTful approach.
+- **HTTPS & TLS:** Configures the application to use HTTPS with TLS encryption.
+- **Efficient Database Queries:** Utilizes connection pooling and prepared statements for optimal database performance.
 
 ## Requirements
 
-- Go 1.16 or higher
-- MySQL or compatible database server
-- A web browser to test the application
+- Go 1.21+
+- MySQL 8.0+
 
 ## Installation
 
 1. Clone the repository:
 
-    `git clone https://github.com/Devkumar194Aghera/snippetbox`
+    `git clone https://github.com/Devkumar194Aghera/snippetbox.git`
 
 2. Navigate to the project directory:
 
-    `cd snippet-box`
+    `cd snippetbox`
 
-3. Install the necessary dependencies:
+3. Install dependencies:
 
-    `go mod tidy`
+    `go mod download`
 
-4. Configure your MySQL database connection in the "config" file.
+4. Set up your MySQL database and update the connection details in the configuration file.
 
-5. Run the application:
-    `go run cmd/web/*`
+5. Build and run the application:
 
-6. Visit http://localhost:4000 in your web browser.
+    `go run ./cmd/web/.`
 
 
 ## Usage
 
-- **Create Snippets**: Use the web interface to add new code snippets with titles, descriptions, and code.
+1. Create an account or log in at [https://snippetbox.alwaysdata.net/](https://snippetbox.alwaysdata.net/).
+2. Click "New Snippet" to add a new code snippet. Provide a title, content, and expiration time.
+3. View, edit, or delete your snippets from your dashboard.
+4. Snippets are private by default, ensuring your code remains secure.
 
-- **User Authentication**: Users can sign up, log in, and log out with secure sessions.
+## Security Measures
 
-- **Access Control**: Users will only be able to view their own snippets unless otherwise specified.
+- Secure password hashing using bcrypt
+- CSRF protection for all POST requests
+- SQL injection prevention through parameterized queries
+- Secure session management with SameSite and HTTP-only flags
+- Implementation of various security headers (X-Frame-Options, X-XSS-Protection, etc.)
 
-## Security Features
-- **SQL Injection Prevention**: Safe queries are executed using Go's database/sql package with parameterized queries.
+## Project Structure
 
-- **Cross-Site Request Forgery (CSRF)**: CSRF protection is in place to prevent malicious form submissions.
+The project follows a clean, modular structure:
 
-- **Password Security**: Passwords are encrypted using Bcrypt before being stored in the database.
+- `cmd/web`: Main application entry point
+- `internal/models`: Database models and queries
+- `internal/validator`: Input validation logic
+- `ui/html`: HTML templates
+- `ui/static`: Static assets (CSS, JavaScript)
 
-- **TLS Encryption**: The application serves all traffic over HTTPS with secure TLS settings.
+## Contributing
 
+Contributions are welcome! Please feel free to submit a Pull Request.
 
-## Middleware 
+## Images
 
-- **Logging**: Logs all incoming HTTP requests for monitoring.
+### Project Screenshots
 
-- **Panic Recovery**: Catches panics and gracefully recovers, preventing crashes and providing error information.
+- **Website View:**  
+  ![image](https://github.com/user-attachments/assets/654be7ae-e0fa-4b3f-a746-0f5aadb70048)
 
-- **Security Headers**: Adds HTTP headers to improve security, such as X-Content-Type-Options, X-Frame-Options, and Strict-Transport-Security.
+### Traffic Metrics
 
-## Template Features
-- **Template Caching**: Templates are cached to avoid redundant reading from the disk, improving performance.
+- **Best Traffic Received:**  
+  ![number-of-visits](https://github.com/user-attachments/assets/5568da39-a634-41cc-abde-a02b5a3aff45)
 
-- **Dynamic Data**: Pass dynamic data to templates in a type-safe way.
-
-- **Custom Template Functions**: Create custom functions to format or transform data in your templates.
 
